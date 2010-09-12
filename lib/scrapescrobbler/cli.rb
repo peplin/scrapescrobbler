@@ -10,19 +10,14 @@ Scrapescrobbler - Old-Fashioned Radio Station Scrobbling
 Usage: #{File.basename $0} COMMAND [OPTIONS] [ARGS...]
 
 where COMMAND is one of:
-  * archive - move entries to a hidden sheet (by default named '_[SHEET]') so
-      they're out of the way.
-    usage: t archive [--start DATE] [--end DATE] [SHEET]
-    -s, --start <date:qs>     Include entries that start on this date or later
-    -e, --end <date:qs>       Include entries that start on this date or earlier
-  * backend - open an sqlite shell to the database
-    usage: t backend
+  * list - start scrobbling a radio station's playlist
+    usage: t listen [STATION]
+  * list - list all available stations
+    usage: t list
   * configure - write out a config file. print path to config file.
 
     OTHER OPTIONS
     -h, --help              Display this help
-    -r, --round             Round output to 15 minute start and end times.
-    -y, --yes               Noninteractive, assume yes as answer to all prompts
 
     Submit bugs and feature requests to http://github.com/peplin/scrapescrobbler/issues
     EOF

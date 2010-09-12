@@ -3,31 +3,26 @@ require 'spec_helper'
 
 module Scrapescrobbler
   describe CLI do
-    include CLIHelperMethods
+    include HelperMethods
 
     describe "listen" do
       before :each do
-        mock
+        mockit
       end
 
       before do
         Station.create :name => "WYEP", :frequency => "91.3"
       end
 
-      it "should complain without a station" do
-      end
+      it "should complain without a station"
 
-      it "should complain with more than one station" do
-      end
+      it "should complain with more than one station"
 
-      it "should start a last.fm session" do
-      end
+      it "should start a last.fm session"
 
-      it "should not return" do
-      end
+      it "should not return"
 
-      it "should enable scrobbling for the station" do
-      end
+      it "should enable scrobbling for the station"
     end
   end
 end

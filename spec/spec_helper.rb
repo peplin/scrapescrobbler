@@ -1,13 +1,13 @@
 require 'scrapescrobbler'
 
 module Scrapescrobbler
-  module CLIHelperMethods
+  module HelperMethods
     def invoke command
       Scrapescrobbler::CLI.parse command
       Scrapescrobbler::CLI.invoke
     end
 
-    def mock
+    def mockit
       $stdout = StringIO.new
       $stdin = StringIO.new
       DataMapper.auto_migrate!

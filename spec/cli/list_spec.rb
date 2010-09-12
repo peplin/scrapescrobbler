@@ -3,11 +3,11 @@ require 'spec_helper'
 
 module Scrapescrobbler
   describe CLI do
-    include CLIHelperMethods
+    include HelperMethods
 
     describe "list" do
       before :each do
-        mock
+        mockit
       end
 
       before do

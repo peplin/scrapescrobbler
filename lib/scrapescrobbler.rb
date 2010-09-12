@@ -6,6 +6,7 @@ require 'Getopt/Declare'
 require File.join(File.dirname(__FILE__), 'scrapescrobbler', 'config')
 require File.join(File.dirname(__FILE__), 'scrapescrobbler', 'helpers')
 require File.join(File.dirname(__FILE__), 'scrapescrobbler', 'cli')
+require File.join(File.dirname(__FILE__), 'scrapescrobbler', 'listener')
 
 DB_NAME = 'sqlite://' + (defined?(TEST_MODE) ? '/tmp/db' : Scrapescrobbler::Config['database_file'])
 DataMapper::Logger.new($stdout, :debug) if defined?(TEST_MODE)

@@ -9,9 +9,10 @@ module Scrapescrobbler
     describe "with an instance" do
       before :each do
         mockit
-        @mock_lastfm = mock(::Lastfm)
+        ::Lastfm::Auth.any_instance.stubs(:get_session).returns("A session")
+        ::Lastfm::Auth.any_instance.stubs(:get_token).returns("a token")
         @station = Station.create :name => "WYEP", :frequency => "91.3"
-        @listener = Listener.new :station => @station
+        @listener = Listener.new @station
       end
 
       it "should have a station" do
@@ -28,7 +29,7 @@ module Scrapescrobbler
         end
 
         it "should not have a last.fm session" do
-          @listener.lastfm.should_not respond_to(:auth)
+          @listener.lastfm.auth.should_not respond_to(:session)
         end
       end
 
@@ -44,7 +45,7 @@ module Scrapescrobbler
 
         it "should have a last.fm session" do
           @listener.lastfm.should respond_to(:auth)
-          @listener.lastfm.auth.should respond_to(:session)
+          @listener.lastfm.should respond_to(:session)
         end
 
         it "should have a current song" do
@@ -54,14 +55,14 @@ module Scrapescrobbler
 
         describe "and when updated" do
           it "should check the station's playlist" do
-            @listener.station.should_receive(:playlist)
+            @listener.station.expects(:playlist)
           end
 
           describe "and there is a new song to scrobble" do
             before do
               @song = Song.new(:time => Time.now, :station => @station,
                   :title => "The Best Song Ever")
-              Station.stub!(:playlist).and_return(@song)
+              Station.stubs(:playlist).with().returns(@song)
             end
 
             it "should create a new Song" do
@@ -71,7 +72,7 @@ module Scrapescrobbler
             end
             
             it "should scrobble the song" do
-              @mock_lastfm.should_receive(:scrobble).with(@song.artist,
+              @listener.lastfm.expects(:scrobble).with(@song.artist,
                   @song.title, @song.album)
             end
 
@@ -84,7 +85,7 @@ module Scrapescrobbler
             before do
               @song = Song.create(:time => Time.now, :station => @station,
                   :title => "The Best Song Ever")
-              Station.stub!(:playlist).and_return(@song)
+              Station.stubs(:playlist).with().returns(@song)
             end
 
             it "should not create a new Song" do
@@ -92,8 +93,8 @@ module Scrapescrobbler
             end
 
             it "should not scrobble the song" do
-              @mock_lastfm.should_not_receive(:scrobble).with(@song.artist,
-                  @song.title, @song.album)
+              @listener.lastfm.expects(:scrobble).with(@song.artist,
+                  @song.title, @song.album).never
             end
 
             it "should not update the current song" do

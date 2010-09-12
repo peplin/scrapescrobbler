@@ -14,3 +14,7 @@ module Scrapescrobbler
     end
   end
 end
+
+RSpec.configure do |config|
+  config.mock_with :mocha
+end

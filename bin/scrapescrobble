@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+begin
+  require 'scrapescrobbler'
+rescue LoadError
+  if File.symlink? __FILE__
+    require File.dirname(File.readlink(__FILE__)) + '/../lib/scrapescrobbler'
+  else
+    require File.dirname(__FILE__) + '/../lib/scrapescrobbler'
+  end
+end
+Scrapescrobbler::CLI.invoke

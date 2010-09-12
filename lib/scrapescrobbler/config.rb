@@ -1,7 +1,7 @@
 module Scrapescrobbler
   module Config
     extend self
-    PATH = ENV['SCRAPSCROBBLER_CONFIG_FILE'] || File.join(ENV['HOME'], '.scrapscrobbler.yml')
+    PATH = ENV['SCRAPESCROBBLER_CONFIG_FILE'] || File.join(ENV['HOME'], '.scrapescrobbler.yml')
 
     # Application defaults.
     #
@@ -12,7 +12,7 @@ module Scrapescrobbler
     def defaults
       {
         # Path to the sqlite db
-        'database_file' => "#{ENV['HOME']}/.scrapscrobbler.db",
+        'database_file' => "#{ENV['HOME']}/.scrapescrobbler.db",
         # Unit of time for rounding (-r) in seconds
         'round_in_seconds' => 900
       }

@@ -23,12 +23,27 @@ RubyGems is the preferred method of installation:
 Whenever you're listening to the radio, run scrapescrobbler with the name of the
 station:
 
-    $ scrapescrobbler wyep
+    $ ss wyep
 
 The station must be in the list of supported stations. To see a list of
 available stations, try this:
 
-    $ scrapescrobbler -h
+    $ ss list
+
+To scrobble a single song, give scrapescrobbler the station name, and demand it
+do its thing right away.
+
+    $ ss wyep now
+
+The history of scrobbled songs is saved. If the connection to last.fm is lost,
+Scrapescrobbler can buffer tracks from the radio station. To see the last few
+songs scrobbled (or those in the queue), run:
+
+    $ ss wyep history
+
+You can see any number of songs back in history by adding a number:
+
+    $ ss wyep history 50
 
 ## Contributing
 

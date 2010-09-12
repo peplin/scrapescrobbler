@@ -19,6 +19,10 @@ Gem::Specification.new do |s|
   s.add_development_dependency "rspec"
   s.add_dependency "hpricot"
   s.add_dependency "lastfm"
+  s.add_dependency "dm-core"
+  s.add_dependency "dm-sqlite-adapter"
+  s.add_dependency "dm-migrations"
+  s.add_dependency "dm-validations"
 
   s.files = `git ls-files`.split("\n")
   s.test_files = `git ls-files -- spec/*`.split("\n")

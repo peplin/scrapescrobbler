@@ -1,5 +1,6 @@
 require 'scrapescrobbler'
 require 'spec_helper'
+require 'lastfm'
 
 module Scrapescrobbler
   describe Listener do
@@ -8,6 +9,7 @@ module Scrapescrobbler
     describe "with an instance" do
       before :each do
         mockit
+        @mock_lastfm = mock(::Lastfm)
         @station = Station.create :name => "WYEP", :frequency => "91.3"
         @listener = Listener.new :station => @station
       end
@@ -17,7 +19,7 @@ module Scrapescrobbler
       end
 
       it "should have a last.fm instance" do
-        @listener.lastfm.should be_an_instance_of(Lastfm)
+        @listener.lastfm.should be_an_instance_of(::Lastfm)
       end
 
       describe "that is inactive" do
@@ -53,25 +55,23 @@ module Scrapescrobbler
         describe "and when updated" do
           it "should check the station's playlist" do
             @listener.station.should_receive(:playlist)
-            @listener.update
           end
 
           describe "and there is a new song to scrobble" do
             before do
-              mock_lastfm = mock(Lastfm)
               @song = Song.new(:time => Time.now, :station => @station,
                   :title => "The Best Song Ever")
-              Station.stub!(:playlist).and_return(song)
+              Station.stub!(:playlist).and_return(@song)
             end
 
             it "should create a new Song" do
-              should change(Song, :count).by(1)
+              proc { @listener.update }.should change(Song, :count).by(1)
               song = Song.first :time => @song.time, :station => @song.station
               song.title.should eq(@song.title)
             end
             
             it "should scrobble the song" do
-              mock_lastfm.track.should_receive(:scrobble).with(@song.artist,
+              @mock_lastfm.should_receive(:scrobble).with(@song.artist,
                   @song.title, @song.album)
             end
 
@@ -82,23 +82,22 @@ module Scrapescrobbler
 
           describe "and there is not a new song to scrobble" do
             before do
-              mock_lastfm = mock(Lastfm)
               @song = Song.create(:time => Time.now, :station => @station,
                   :title => "The Best Song Ever")
-              Station.stub!(:playlist).and_return(song)
+              Station.stub!(:playlist).and_return(@song)
             end
 
             it "should not create a new Song" do
-              should_not change(Song, :count).by(1)
+              proc { @listener.update }.should_not change(Song, :count).by(1)
             end
 
             it "should not scrobble the song" do
-              mock_lastfm.track.should_not_receive(:scrobble).with(@song.artist,
+              @mock_lastfm.should_not_receive(:scrobble).with(@song.artist,
                   @song.title, @song.album)
             end
 
             it "should not update the current song" do
-              should_not change(@listener, :now_playing)
+              proc { @listener.update }.should_not change(@listener, :now_playing)
             end
           end
         end

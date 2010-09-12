@@ -13,8 +13,8 @@ module Scrapescrobbler
       {
         # Path to the sqlite db
         'database_file' => "#{ENV['HOME']}/.scrapescrobbler.db",
-        # Unit of time for rounding (-r) in seconds
-        'round_in_seconds' => 900
+        'api_key' => "73af75e07cd58bfe66d13af9371b9504",
+        'api_secret' => "85b1b415e9c2b653e84bd1304d4dd9fa"
       }
     end
 

@@ -1,17 +1,13 @@
 require 'scrapescrobbler'
+require 'spec_helper'
 
 module Scrapescrobbler
   describe CLI do
-    before :each do
-      $stdout = StringIO.new
-      $stdin = StringIO.new
-      DataMapper.auto_migrate!
-    end
+    include CLIHelperMethods
 
     describe "list" do
-      def invoke command
-        Scrapescrobbler::CLI.parse command
-        Scrapescrobbler::CLI.invoke
+      before :each do
+        mock
       end
 
       before do

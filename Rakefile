@@ -21,10 +21,8 @@ begin
 
   desc "Run specs"
   RSpec::Core::RakeTask.new do |t|
-    t.spec_opts  = %w(-fs --color)
-    t.warning    = true
+    t.spec_opts = %w(-fs --color)
   end
-  task :spec => :build
 
   namespace :spec do
     task :clean do
@@ -55,7 +53,7 @@ task :gemspec do
 end
 
 desc "Build the gem"
-task :gem => [:gemspec, :build] do
+task :gem => :gemspec do
   mkdir_p "pkg"
   sh "gem build scrapescrobbler.gemspec"
   mv "#{gemspec.full_name}.gem", "pkg"

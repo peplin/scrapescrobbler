@@ -1,6 +1,7 @@
 require 'dm-core'
 require 'dm-migrations'
 require 'dm-validations'
+require 'Getopt/Declare'
 
 require File.join(File.dirname(__FILE__), 'scrapescrobbler', 'config')
 require File.join(File.dirname(__FILE__), 'scrapescrobbler', 'helpers')
@@ -16,3 +17,17 @@ end
 
 DataMapper.finalize
 DataMapper.auto_upgrade!
+
+module Scrapescrobbler
+  extend self
+
+  class AlreadyRunning < StandardError
+    def message
+      "Scrapescrobbler is already running"
+    end
+  end
+
+  CLI.args = Getopt::Declare.new(<<-EOF)
+    #{CLI::USAGE}
+  EOF
+end

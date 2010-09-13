@@ -2,12 +2,12 @@ module Scrapescrobbler
   class Song
     include DataMapper::Resource
     property :id, Serial
-    property :time, DateTime
-    property :artist, String
-    property :title, String
+    property :time, DateTime, :required => true
+    property :artist, String, :required => true
+    property :title, String, :required => true
     property :album, String
-    belongs_to :station
+    property :station, String, :required => true
 
-    validates_uniqueness_of :time, :scope => :station_id
+    validates_uniqueness_of :time, :scope => :station
   end
 end

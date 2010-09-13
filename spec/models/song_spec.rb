@@ -3,7 +3,8 @@ require 'scrapescrobbler'
 module Scrapescrobbler
   describe Song do
     before do
-      @song = Song.new
+      @song = Song.new :artist => "Prince", :title => "Purple Rain",
+          :time => Time.now
     end
 
     it "should have a time" do
@@ -27,7 +28,7 @@ module Scrapescrobbler
     end
 
     it "should require a station" do
-      @song.station_id = 1
+      @song.station = "wyep"
       @song.save.should == true
     end
   end

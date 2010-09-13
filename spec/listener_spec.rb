@@ -9,14 +9,20 @@ module Scrapescrobbler
     describe "with an instance" do
       before :each do
         mockit
-        ::Lastfm::Auth.any_instance.stubs(:get_session).returns("A session")
-        ::Lastfm::Auth.any_instance.stubs(:get_token).returns("a token")
-        @station = Station.create :name => "WYEP", :frequency => "91.3"
+        ::Lastfm::MethodCategory::Auth.any_instance.stubs(
+            :get_session).returns("A session")
+        ::Lastfm::MethodCategory::Auth.any_instance.stubs(
+            :get_token).returns("a token")
+        @scrobble_stub = ::Lastfm::MethodCategory::Track.any_instance.stubs(
+            :scrobble).returns("Good job!")
+        @station = "wyep"
         @listener = Listener.new @station
+        @song = Song.new(:time => Time.now, :station => @station,
+            :title => "The Best Song Ever", :artist => 'Price')
       end
 
       it "should have a station" do
-        @listener.station.should eq(@station)
+        @listener.station.should eq(Stations::Wyep)
       end
 
       it "should have a last.fm instance" do
@@ -36,6 +42,7 @@ module Scrapescrobbler
       describe "that is active" do
         before :each do
           @listener.listen
+          Stations::Wyep.stubs(:playlist).returns([@song])
         end
 
         it "should have a start time" do
@@ -56,49 +63,48 @@ module Scrapescrobbler
         describe "and when updated" do
           it "should check the station's playlist" do
             @listener.station.expects(:playlist)
+            @listener.update
           end
 
           describe "and there is a new song to scrobble" do
-            before do
-              @song = Song.new(:time => Time.now, :station => @station,
-                  :title => "The Best Song Ever")
-              Station.stubs(:playlist).with().returns(@song)
-            end
 
             it "should create a new Song" do
-              proc { @listener.update }.should change(Song, :count).by(1)
+              proc { @listener.update }.should change(Song, :count)
               song = Song.first :time => @song.time, :station => @song.station
               song.title.should eq(@song.title)
             end
             
             it "should scrobble the song" do
-              @listener.lastfm.expects(:scrobble).with(@song.artist,
-                  @song.title, @song.album)
+              @scrobble_stub.expects(:scrobble).with(@song.artist, @song.title)
+              @listener.update
             end
 
             it "should have a current song that matches the new song" do
+              @listener.update
               @listener.now_playing.should eq(@song)
             end
           end
 
           describe "and there is not a new song to scrobble" do
             before do
-              @song = Song.create(:time => Time.now, :station => @station,
-                  :title => "The Best Song Ever")
-              Station.stubs(:playlist).with().returns(@song)
+              @song.save
             end
 
             it "should not create a new Song" do
-              proc { @listener.update }.should_not change(Song, :count).by(1)
+              @listener.update
+              proc { @listener.update }.should_not change(Song, :count)
             end
 
             it "should not scrobble the song" do
-              @listener.lastfm.expects(:scrobble).with(@song.artist,
-                  @song.title, @song.album).never
+              @scrobble_stub.expects(:scrobble).with(@song.artist,
+                  @song.title).never
+              @listener.update
             end
 
             it "should not update the current song" do
-              proc { @listener.update }.should_not change(@listener, :now_playing)
+              @listener.update
+              proc { @listener.update }.should_not change(@listener,
+                  :now_playing)
             end
           end
         end

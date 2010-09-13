@@ -10,10 +10,6 @@ module Scrapescrobbler
         mockit
       end
 
-      before do
-        Station.create :name => "WYEP", :frequency => "91.3"
-      end
-
       it "should complain without a station"
 
       it "should complain with more than one station"

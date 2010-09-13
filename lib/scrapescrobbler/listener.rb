@@ -5,8 +5,8 @@ module Scrapescrobbler
     attr_accessor :lastfm, :station, :started
 
     def initialize(station)
-      @station = station
       @lastfm = Listener.authenticate
+      @station = ::Scrapescrobbler::Stations.const_get(station.classify)
     end
 
     def listen
@@ -15,9 +15,27 @@ module Scrapescrobbler
     end
 
     def update
+      playlist = Stations::Wyep::playlist
+      if playlist and playlist.length > 0 then
+        @now_playing = playlist.first
+        playlist.each do |song|
+          saved = song.save
+          scrobble(song) if saved
+        end
+      end
+    end
+
+    def scrobble song
+      if song.album then
+        @lastfm.track.scrobble song.artist, song.title, song.album
+      else
+        @lastfm.track.scrobble song.artist, song.title
+      end
     end
 
     def now_playing
+      update if not @now_playing
+      @now_playing
     end
 
     private

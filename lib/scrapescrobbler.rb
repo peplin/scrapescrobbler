@@ -16,6 +16,10 @@ Dir["#{File.dirname(__FILE__)}/scrapescrobbler/models/*.rb"].each do |path|
   require path
 end
 
+Dir["#{File.dirname(__FILE__)}/scrapescrobbler/stations/*.rb"].each do |path|
+  require path
+end
+
 DataMapper.finalize
 DataMapper.auto_upgrade!
 

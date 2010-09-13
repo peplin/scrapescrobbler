@@ -10,16 +10,14 @@ module Scrapescrobbler
         mockit
       end
 
-      before do
-        Station.create :name => "WYEP", :frequency => "91.3"
-        Station.create :name => "WDUQ", :frequency => "90.1"
-      end
-
       it "should list all available stations" do
         invoke 'stations'
-        Station.all.each do |station|
-          $stdin.should include(Station.all.collect do |station| station.name end)
-        end
+        $stdin.should include(Stations.constants.collect do |const|
+            station = Stations.const_get(const)
+            if station != Stations::Station then
+              station::NAME
+            end
+          end.compact)
       end
     end
   end

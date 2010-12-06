@@ -18,6 +18,14 @@ RubyGems is the preferred method of installation:
 
     $ [sudo] gem install scrapescrobbler
 
+For the moment, this requires a forked version of the lastfm gem. Install it
+like so:
+
+    $ git clone https://github.com/peplin/ruby-lastfm.git ruby-lastfm
+    $ cd ruby-lastfm
+    $ git checkout scrobblingv2
+    $ rake install
+
 ## Running
 
 Whenever you're listening to the radio, run scrapescrobbler with the name of the

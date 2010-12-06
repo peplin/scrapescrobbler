@@ -54,15 +54,3 @@ desc "validate the gemspec"
 task :gemspec do
   gemspec.validate
 end
-
-desc "Build the gem"
-task :gem => :gemspec do
-  mkdir_p "pkg"
-  sh "gem build scrapescrobbler.gemspec"
-  mv "#{gemspec.full_name}.gem", "pkg"
-end
-
-desc "Install scrapescrobbler"
-task :install => :gem do
-  sh "gem install pkg/#{gemspec.full_name}.gem"
-end

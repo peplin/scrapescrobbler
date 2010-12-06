@@ -20,12 +20,13 @@ module Scrapescrobbler
         @now_playing = playlist.first
         playlist.each do |song|
           saved = song.save
-          scrobble(song) if saved
+          self.scrobble(song) if saved
         end
       end
     end
 
     def scrobble song
+      puts "Scrobbling #{song} @ #{Time.now}"
       if song.album then
         @lastfm.track.scrobble song.artist, song.title, song.album
       else
@@ -41,9 +42,14 @@ module Scrapescrobbler
     private
 
     def self.authenticate
-      lastfm = Lastfm.new Config['api_key'], Config['api_secret']
-      lastfm.session = lastfm.auth.get_session(lastfm.auth.get_token)
-      lastfm
+      if not Config['token']
+        CLI.authenticate
+        exit
+      else
+        lastfm = Lastfm.new Config['api_key'], Config['api_secret']
+        lastfm.session = lastfm.auth.get_session(Config['token'])
+        lastfm
+      end
     end
   end
 end

@@ -1,6 +1,6 @@
 module Scrapescrobbler
   module CLI
-    def list
+    def stations
       say "FOO"
     end
   end

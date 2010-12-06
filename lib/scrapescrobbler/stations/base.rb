@@ -1,5 +1,3 @@
-require 'scrapescrobbler'
-
 module Scrapescrobbler
   module Stations
     class Station

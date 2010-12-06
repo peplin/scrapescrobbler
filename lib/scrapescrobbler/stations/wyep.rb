@@ -1,5 +1,3 @@
-require 'scrapescrobbler'
-require 'scrapescrobbler/stations/base'
 require 'hpricot'
 require 'open-uri'
 
@@ -23,9 +21,9 @@ module Scrapescrobbler
             cell.inner_html
           end
           songs = playlist_entries.chunk(5).collect do |entry|
-            Scrapescrobbler::Song.new :time => Time.parse(entry[0]),
-                :artist => entry[1], :title => entry[2], :album => entry[3],
-                :station => Wyep::NAME
+            time = entry[0] == "NOW PLAYING" ? Time.now : Time.parse(entry[0])
+            Scrapescrobbler::Song.new :time => time, :artist => entry[1],
+                :title => entry[2], :album => entry[3], :station => Wyep::NAME
           end
         end
         songs

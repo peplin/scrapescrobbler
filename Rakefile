@@ -21,7 +21,7 @@ begin
 
   desc "Run specs"
   RSpec::Core::RakeTask.new do |t|
-    t.spec_opts = %w(-fs --color)
+    t.rspec_opts = %w(-fs --color)
   end
 
   namespace :spec do

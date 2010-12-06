@@ -10,10 +10,12 @@ Scrapescrobbler - Old-Fashioned Radio Station Scrobbling
 Usage: #{File.basename $0} COMMAND [OPTIONS] [ARGS...]
 
 where COMMAND is one of:
-  * list - start scrobbling a radio station's playlist
-    usage: t listen [STATION]
-  * list - list all available stations
-    usage: t list
+  * listen - start scrobbling a radio station's playlist
+    usage: ss listen [STATION]
+  * stations - list all available stations
+    usage: ss stations
+  * authenticate - re-authenticate with last.fm
+    usage: ss authenticate
   * configure - write out a config file. print path to config file.
 
     OTHER OPTIONS

@@ -9,5 +9,9 @@ module Scrapescrobbler
     property :station, String, :required => true
 
     validates_uniqueness_of :time, :scope => :station
+
+    def to_s
+      "#{artist} - #{title}"
+    end
   end
 end

@@ -14,7 +14,8 @@ module Scrapescrobbler
         # Path to the sqlite db
         'database_file' => "#{ENV['HOME']}/.scrapescrobbler.db",
         'api_key' => "73af75e07cd58bfe66d13af9371b9504",
-        'api_secret' => "85b1b415e9c2b653e84bd1304d4dd9fa"
+        'api_secret' => "85b1b415e9c2b653e84bd1304d4dd9fa",
+        'token' => nil
       }
     end
 
@@ -32,6 +33,12 @@ module Scrapescrobbler
         File.open(PATH, 'w') do |fh|
           fh.puts(defaults.to_yaml)
         end
+      end
+    end
+
+    def update! values
+      File.open(PATH, 'w') do |fh|
+        fh.puts(defaults.update(values).to_yaml)
       end
     end
   end

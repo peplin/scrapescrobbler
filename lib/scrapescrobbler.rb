@@ -2,6 +2,7 @@ require 'dm-core'
 require 'dm-migrations'
 require 'dm-validations'
 require 'Getopt/Declare'
+require 'active_support/all'
 
 require File.join(File.dirname(__FILE__), 'scrapescrobbler', 'config')
 require File.join(File.dirname(__FILE__), 'scrapescrobbler', 'helpers')

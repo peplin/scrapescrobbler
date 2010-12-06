@@ -24,6 +24,7 @@ Gem::Specification.new do |s|
   s.add_dependency "dm-sqlite-adapter"
   s.add_dependency "dm-migrations"
   s.add_dependency "dm-validations"
+  s.add_dependency "activesupport", ">= 3.0.0"
 
   s.files = `git ls-files`.split("\n")
   s.test_files = `git ls-files -- spec/*`.split("\n")

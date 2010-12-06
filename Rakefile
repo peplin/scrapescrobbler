@@ -3,6 +3,7 @@ $:.unshift File.expand_path("../lib", __FILE__)
 
 require 'rubygems'
 require 'rubygems/specification'
+require 'rake/gempackagetask'
 require 'scrapescrobbler'
 
 def gemspec
@@ -15,9 +16,7 @@ end
 begin
   require 'rspec/core/rake_task'
 
-  task :clear_tmp do
-    FileUtils.rm_rf(File.expand_path("../tmp", __FILE__))
-  end
+  task :default => :spec
 
   desc "Run specs"
   RSpec::Core::RakeTask.new do |t|
@@ -42,8 +41,12 @@ rescue LoadError
   end
 end
 
+Rake::GemPackageTask.new(gemspec) do |pkg|
+  pkg.gem_spec = gemspec
+end
+
 desc "install the gem locally"
-task :install => :package do
+task :install => [:package] do
   sh %{gem install pkg/#{gemspec.name}-#{gemspec.version}}
 end
 

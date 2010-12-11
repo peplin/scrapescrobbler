@@ -1,5 +1,6 @@
 require 'hpricot'
 require 'open-uri'
+require 'scrapescrobbler/stations/base'
 
 module Scrapescrobbler
   module Stations

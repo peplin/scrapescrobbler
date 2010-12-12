@@ -18,25 +18,17 @@ RubyGems is the preferred method of installation:
 
     $ [sudo] gem install scrapescrobbler
 
-For the moment, this requires a forked version of the lastfm gem. Install it
-like so:
-
-    $ git clone https://github.com/peplin/ruby-lastfm.git ruby-lastfm
-    $ cd ruby-lastfm
-    $ git checkout scrobblingv2
-    $ rake install
-
 ## Running
 
 Whenever you're listening to the radio, run scrapescrobbler with the name of the
 station:
 
-    $ ss listen wyep
+    $ scrapes listen wyep
 
 The station must be in the list of supported stations. To see a list of
 available stations, try this:
 
-    $ ss stations
+    $ scrapes stations
 
 ## Configuration & Authentication
 
@@ -46,7 +38,7 @@ authenticated and spit out a URL - visit that and give scrapescrobbler the
 go-ahead, and things should work fine. If you need to re-authenticate for any
 reason, just run:
 
-    $ ss authenticate
+    $ scrapes authenticate
 
 ## Contributing
 

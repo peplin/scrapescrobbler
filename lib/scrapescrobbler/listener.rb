@@ -26,12 +26,9 @@ module Scrapescrobbler
     end
 
     def scrobble song
-      puts "Scrobbling #{song} @ #{Time.now}"
-      if song.album then
-        @lastfm.track.scrobble song.artist, song.title, song.album, Time.now.utc.to_i
-      else
-        @lastfm.track.scrobble song.artist, song.title, Time.now.utc.to_i
-      end
+      puts "Scrobbling #{song} @ #{song.time || Time.now}"
+      @lastfm.track.scrobble(song.artist, song.title, song.album,
+          song.time.utc.to_i || Time.now.utc.to_i)
     end
 
     def now_playing

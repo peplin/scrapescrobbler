@@ -44,7 +44,10 @@ module Scrapescrobbler
         exit
       else
         lastfm = Lastfm.new Config['api_key'], Config['api_secret']
-        lastfm.session = lastfm.auth.get_session(Config['token'])
+        if not Config['session']
+          Config.update! 'session' => lastfm.auth.get_session(Config['token'])
+        end
+        lastfm.session = Config['session']
         lastfm
       end
     end

@@ -19,6 +19,7 @@ module Scrapescrobbler
       if playlist and playlist.length > 0 then
         @now_playing = playlist.first
         playlist.each do |song|
+          next if song == nil
           saved = song.save
           self.scrobble(song) if saved
         end

@@ -45,7 +45,7 @@ module Scrapescrobbler
       end
 
       lastfm = Lastfm.new Config['api_key'], Config['api_secret']
-      lastfm.session = Config['session']
+      lastfm.session = Config['session']['key']
       lastfm
     end
   end

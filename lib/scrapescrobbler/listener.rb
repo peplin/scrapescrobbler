@@ -28,8 +28,8 @@ module Scrapescrobbler
 
     def scrobble song
       puts "Scrobbling #{song} @ #{song.time || Time.now}"
-      @lastfm.track.scrobble(song.artist, song.title, song.album,
-          song.time.utc.to_i || Time.now.utc.to_i)
+      @lastfm.track.scrobble(song.artist, song.title,
+          song.time.utc.to_i || Time.now.utc.to_i, song.album)
     end
 
     def now_playing
